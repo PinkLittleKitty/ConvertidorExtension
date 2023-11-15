@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Convertidor y Calculadora",
+  "version": "1.0",
+  "description": "Un convertidor entre Decimal, Hexadecimal, y Binario, y también aritmética entre las mismas.",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "img/icon_16.png",
+      "24": "img/icon_24.png",
+      "32": "img/icon_32.png",
+      "48": "img/icon_48.png",
+      "64": "img/icon_64.png"
+    }
+  },
+  "icons": {
+    "16": "img/icon_16.png",
+    "24": "img/icon_24.png",
+    "32": "img/icon_32.png",
+    "48": "img/icon_48.png",
+    "64": "img/icon_64.png"
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}

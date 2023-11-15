@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convertidor y Calculadora Woooo</title>
+    <script src="script.js"></script>
+    <style>
+        *:disabled,
+        .disabled {
+            opacity: 0.5;
+        }
+
+        a {
+            color: #3367d6;
+            text-decoration: none;
+        }
+
+        body {
+            color: #5f6368;
+            font-size: 11px;
+            margin: 0;
+            width: 350px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+        }
+
+        .header p {
+            color: #202124;
+            margin: 0;
+        }
+
+        .header code {
+            font-size: 0.8rem;
+        }
+
+        .header img {
+            height: 1rem;
+            width: auto;
+        }
+
+        details {
+            border-bottom: 1px solid #dadce0;
+            padding: 0.5rem;
+        }
+
+        summary {
+            cursor: pointer;
+            outline: none;
+        }
+
+        section {
+            display: none;
+            border-bottom: 1px solid #dadce0;
+            padding: 0.5rem;
+        }
+
+        details[open] section {
+            display: block;
+        }
+
+        section>div {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 0 -0.25rem;
+        }
+
+        section>div>div {
+            flex: 1 1 calc(50% - 0.5rem);
+            margin: 0 0.25rem;
+        }
+
+        section>small {
+            display: block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0.25rem 0 0 0;
+        }
+
+        ul li {
+            padding: 0.1rem 0;
+        }
+
+        ul.extensions li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        ul.extensions li button.remove {
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+            visibility: hidden;
+        }
+
+        ul.extensions li:hover button.remove {
+            visibility: visible;
+        }
+
+        .badge {
+            background-color: orangered;
+            border-radius: 4px;
+            color: white;
+            margin-right: 0.25em;
+            padding: 0 0.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div>
+            <p>
+                <strong>Convertidor y Calculadora Woooo</strong>
+                <code>1.0.0</code>
+            </p>
+        </div>
+        <div class="header-cell">
+            <a href="https://github.com/PinkLittleKitty/ConvertidorExtension" target="_blank">
+                <img src="../img/github.svg" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Sección de Conversión -->
+    <details>
+        <summary>Convertidor go Brrrrrr</summary>
+        <section>
+            <div>
+                <label for="inputField">Ingrese Valor:</label>
+                <input type="text" id="inputField">
+            </div>
+            <div>
+                <label for="inputFieldBits">Cantidad de Bits:</label>
+                <input type="number" id="inputFieldBits">
+            </div>
+            <div>
+                <label for="inputType">Tipo de Entrada:</label>
+                <select id="inputType">
+                    <option value="hex">Hexadecimal</option>
+                    <option value="binary">Binario</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="sm">Signo-Magnitud</option>
+                    <option value="ca2">Complemento a 2 (CA2)</option>
+                </select>
+            </div>
+            <div>
+                <button id="convertirButton">Convertir</button>
+            </div>
+            <h3>Conversiones:</h3>
+            <p id="hexToBinary"></p>
+            <p id="binaryToHex"></p>
+            <p id="hexToDecimal"></p>
+            <p id="decimalToHex"></p>
+            <p id="binaryToDecimal"></p>
+            <p id="decimalToBinary"></p>
+            <p id="smToDecimal"></p>
+            <p id="ca2ToDecimal"></p>
+        </section>
+    </details>
+
+    <!-- Sección de Calculadora -->
+    <details>
+        <summary>Calculadora go Brrrrrr</summary>
+        <section>
+            <div>
+                <label for="calcInput1">Primer Valor:</label>
+                <input type="text" id="calcInput1">
+            </div>
+            <div>
+                <label for="calcInputType1">Tipo de Entrada 1:</label>
+                <select id="calcInputType1">
+                    <option value="hex">Hexadecimal</option>
+                    <option value="binary">Binario</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="sm">Signo-Magnitud</option>
+                    <option value="ca2">Complemento a 2 (CA2)</option>
+                </select>
+            </div>
+            <div>
+                <label for="calcOperator">Operador:</label>
+                <select id="calcOperator">
+                    <option value="add">+</option>
+                    <option value="subtract">-</option>
+                    <option value="multiply">*</option>
+                    <option value="divide">/</option>
+                </select>
+            </div>
+            <div>
+                <label for="calcInput2">Segundo Valor:</label>
+                <input type="text" id="calcInput2">
+            </div>
+            <div>
+                <label for="calcInputType2">Tipo de Entrada 2:</label>
+                <select id="calcInputType2">
+                    <option value="hex">Hexadecimal</option>
+                    <option value="binary">Binario</option>
+                    <option value="decimal">Decimal</option>
+                    <option value="sm">Signo-Magnitud</option>
+                    <option value="ca2">Complemento a 2 (CA2)</option>
+                </select>
+            </div>
+            <div>
+                <button id="calcularButton">Calcular</button>
+            </div>
+            <h3>Resultado:</h3>
+            <p id="calcResultHex"></p>
+            <p id="calcResultBinary"></p>
+            <p id="calcResultDecimal"></p>
+            <p id="calcResultSM"></p>
+            <p id="calcResultCA2"></p>
+        </section>
+    </details>
+</body>
+</html>
