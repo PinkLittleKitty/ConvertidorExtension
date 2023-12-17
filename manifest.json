@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Convertidor y Calculadora",
-  "version": "1.0",
+  "version": "1.5.0",
   "description": "Un convertidor entre Decimal, Hexadecimal, y Binario, y también aritmética entre las mismas.",
   "action": {
     "default_popup": "index.html",

@@ -18,10 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function convertir() { 
     const inputField = document.getElementById('inputField').value; 
     const inputType = document.getElementById('inputType').value;
-    const bitSize = parseInt(document.getElementById('inputFieldBits').value);
+    bitSize = Math.ceil(Math.log2(Math.abs(parseInt(inputField, 10))) + 1);
+    document.getElementById('inputFieldBits').value = bitSize;
 
     // Limpiar los resultados previos 
-    limpiarConversiones('conversiones');
+    limpiarConversiones();
 
     // Realizar las conversiones basadas en el tipo de entrada 
     switch (inputType) { 
@@ -36,20 +37,28 @@ function convertir() {
         case 'decimal': 
             mostrarConversion('decimalToBinary', parseInt(inputField, 10).toString(2), 'Decimal a Binario'); 
             mostrarConversion('decimalToHex', parseInt(inputField, 10).toString(16).toUpperCase(), 'Decimal a Hexadecimal'); 
-            const ca2ValueD = decimalToCA2(parseInt(inputField, 10), bitSize);
-            mostrarConversion('ca2ToDecimal', ca2ValueD, 'Decimal a Complemento a 2 (CA2)');
+            break;
+        case 'sm':
             const smValueD = decimalToSM(parseInt(inputField, 10), bitSize);
             mostrarConversion('smToDecimal', smValueD, 'Decimal a Signo-Magnitud (SM)');
             break;
+        case 'ca2':
+            const ca2ValueD = decimalToCA2(parseInt(inputField, 10), bitSize);
+            console.log('Debug: ca2ValueD', ca2ValueD);
+            mostrarConversion('ca2ToDecimal', ca2ValueD, 'Decimal a Complemento a 2 (CA2)');
+            break;
+
         default: 
             // Tipo de entrada no válido 
             console.log('Tipo de entrada no válido'); 
     } 
-} 
+}
 
-function limpiarConversiones(sectionId) {
-    const elementosConversion = document.querySelectorAll(`#${sectionId} p`);
-    elementosConversion.forEach(elemento => {
+function limpiarConversiones() {
+    const conversionIds = ['hexToBinary', 'hexToDecimal', 'binaryToHex', 'binaryToDecimal', 'decimalToBinary', 'decimalToHex', 'ca2ToDecimal', 'smToDecimal'];
+
+    conversionIds.forEach(id => {
+        const elemento = document.getElementById(id);
         elemento.textContent = '';
     });
 }
@@ -178,32 +187,43 @@ function calcular() {
 
 function mostrarResultadoSM(resultSM) {
     const calcResultSM = document.getElementById('calcResultSM');
-    calcResultSM.textContent = `Resultado Signo-Magnitud (SM): ${resultSM}`;
+    if (!isNaN(resultSM)) {
+        calcResultSM.textContent = `Resultado Signo-Magnitud (SM): ${resultSM}`;
+    } else {
+        calcResultSM.textContent = `Resultado Signo-Magnitud (SM): Valor no válido`;
+    }
 }
 
 function mostrarResultadoCA2(resultCA2) {
     const calcResultCA2 = document.getElementById('calcResultCA2');
-    calcResultCA2.textContent = `Resultado Complemento a 2 (CA2): ${resultCA2}`;
-}
-
-function decimalToSM(decimalValue) {
-    if (decimalValue >= 0) {
-        return '0' + decimalValue.toString(2);
+    if (!isNaN(resultCA2)) {
+        calcResultCA2.textContent = `Resultado Complemento a 2 (CA2): ${resultCA2}`;
     } else {
-        return '1' + Math.abs(decimalValue).toString(2);
+        calcResultCA2.textContent = `Resultado Complemento a 2 (CA2): Valor no válido`;
     }
 }
 
-function decimalToCA2(decimalValue) {
-    const bitSize = 8; // Adjust the bit size as needed
-    if (decimalValue >= 0) {
-        return decimalValue.toString(2).padStart(bitSize, '0');
+function decimalToSM(decimalValue, bitSize) {
+    const isNegative = decimalValue < 0;
+    const absoluteValue = Math.abs(decimalValue);
+    const binaryRepresentation = absoluteValue.toString(2).padStart(bitSize - 1, '0');
+    
+    return (isNegative ? '1' : '0') + binaryRepresentation;
+}
+
+function decimalToCA2(decimalValue, bitSize) {
+    const isNegative = decimalValue < 0;
+    const absoluteValue = Math.abs(decimalValue);
+    const invertedBinary = (Math.pow(2, bitSize) - absoluteValue).toString(2).padStart(bitSize, '0');
+
+    if (isNegative) {
+        return sumarUno(invertedBinary);
     } else {
-        const absoluteValue = Math.abs(decimalValue);
-        const invertedValue = (Math.pow(2, bitSize) - absoluteValue).toString(2);
-        return invertedValue;
+        return invertedBinary;
     }
-} 
+}
+
+
 
 function mostrarResultadoCalculo(resultado) { 
     // Mostrar el resultado en Hexadecimal 
