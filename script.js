@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
             calcular();
         });
     }
+
+    chrome.runtime.getManifest().version;
+
+    const extensionVersionElement = document.getElementById('extensionVersion');
+    if (extensionVersionElement) {
+        extensionVersionElement.textContent = chrome.runtime.getManifest().version;
+    }
 });
 
 function convertir() { 
